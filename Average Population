@@ -1,0 +1,3 @@
+# Author: Sanjat Kumar
+select  floor(AVG(POPULATION))
+from city
