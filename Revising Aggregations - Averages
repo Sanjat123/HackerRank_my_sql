@@ -1,0 +1,4 @@
+# Author: Sanjat Kumar
+SELECT avg(population)
+from city
+where District ='California'
