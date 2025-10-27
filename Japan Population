@@ -1,0 +1,4 @@
+# Author: Sanjat Kumar
+select sum (POPULATION)
+from city
+where COUNTRYCODE ='JPN'
