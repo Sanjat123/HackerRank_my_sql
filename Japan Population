@@ -1,4 +1,4 @@
-# Author: Sanjat Kumar
-select sum (POPULATION)
-from city
-where COUNTRYCODE ='JPN'
+
+SELECT SUM(POPULATION)
+FROM CITY
+WHERE COUNTRYCODE ='JPN'
