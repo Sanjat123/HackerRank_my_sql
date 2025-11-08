@@ -1,0 +1,55 @@
+SET NULL "NULL";
+SET FEEDBACK OFF;
+SET ECHO OFF;
+SET HEADING OFF;
+SET WRAP OFF;
+SET LINESIZE 10000;
+SET TAB OFF;
+SET PAGES 0;
+SET DEFINE OFF;
+
+
+SELECT 
+    b.submission_date,
+    a.cnt,
+    b.hacker_id,
+    c.name
+FROM 
+    (
+        SELECT 
+            submission_date,
+            COUNT(DISTINCT hacker_id) cnt
+        FROM (
+            SELECT 
+                hacker_id,
+                submission_date,
+                ROW_NUMBER() OVER (PARTITION BY hacker_id ORDER BY submission_date) AS numbering
+            FROM Submissions
+            GROUP BY hacker_id, submission_date
+        ) x
+        WHERE numbering = TO_DATE(submission_date,'yyyy-mm-dd') - TO_DATE('2016-03-01','yyyy-mm-dd') + 1
+        GROUP BY submission_date
+    ) a
+RIGHT JOIN (
+        SELECT 
+            submission_date, 
+            hacker_id, 
+            cnt
+        FROM (
+            SELECT 
+                submission_date,
+                hacker_id,
+                COUNT(DISTINCT submission_id) cnt,
+                ROW_NUMBER() OVER (PARTITION BY submission_date ORDER BY COUNT(DISTINCT submission_id) DESC, hacker_id) AS numbering
+            FROM Submissions
+            GROUP BY submission_date, hacker_id
+        ) y
+        WHERE numbering = 1
+    ) b
+ON a.submission_date = b.submission_date
+LEFT JOIN Hackers c
+ON b.hacker_id = c.hacker_id
+ORDER BY b.submission_date;
+
+
+exit;
