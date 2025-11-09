@@ -1,4 +1,5 @@
-SELECT
+# Sanjat 
+select
       c.contest_id,
       c.hacker_id,
       c.name,
@@ -21,7 +22,7 @@ FROM
             SUM(vs.total_unique_views) AS total_unique_views
         FROM
             (
-                SELECT
+                select
                     ch.challenge_id,
                     SUM(ss.total_submissions) AS total_submissions,
                     SUM(ss.total_accepted_submissions) AS total_accepted_submissions
